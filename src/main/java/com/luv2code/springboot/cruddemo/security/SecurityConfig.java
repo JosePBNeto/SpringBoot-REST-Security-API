@@ -9,12 +9,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
 
+    // support for JDBC
     @Bean
+    public UserDetailsManager userDetailsManager(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+// HARDCODED USERS
+/*    @Bean //
     public InMemoryUserDetailsManager SecurityConfig() {
 
         UserDetails neto = User.builder()
@@ -24,7 +35,7 @@ public class SecurityConfig {
                 .build();
 
         UserDetails lula = User.builder()
-                .username("lula123")
+                .username("lula")
                 .password("{noop}lula123")
                 .roles("EMPLOYEE", "MANAGER")
                 .build();
@@ -36,7 +47,7 @@ public class SecurityConfig {
                 .build();
 
         return new InMemoryUserDetailsManager(neto, lula, juliana);
-    }
+    }*/
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
